@@ -30,7 +30,7 @@ func main() {
 	})
 
 	con.AddCallback("PRIVMSG", func(e *irc.Event) {
-		msgAdd(e.Nick, e.Arguments[1])
+		msgIrc(e.Nick, e.Arguments[1])
 	})
 
 	con.Loop()

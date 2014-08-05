@@ -18,8 +18,11 @@ func HttpIndex(w http.ResponseWriter, r *http.Request) {
 	content := r.FormValue("content")
 
 	if user != "" && content != "" { // is POST
-		_, err := msgAdd(user, content)
-		con.Privmsg("#g0", "[web: "+user+"] "+content)
+		x, err := msgWeb(user, content)
+		if err != nil || x == false {
+			fmt.Fprintf(w, err.Error())
+			return
+		}
 		if err != nil {
 			return
 		}

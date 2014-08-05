@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"strings"
 	"time"
 )
 
@@ -13,7 +14,10 @@ type Message struct {
 
 var MessageLog []*Message
 
-func msgAdd(user, content string) (bool, error) {
+func msgWeb(user, content string) (bool, error) {
+
+	user = strings.Trim(user, " ")
+
 	if user == "" {
 		return false, errors.New("Username is empty.")
 	}
@@ -30,6 +34,11 @@ func msgAdd(user, content string) (bool, error) {
 		return false, errors.New("Sorry, only for VIPs.")
 	}
 
+	con.Privmsg("#g0", "[web: "+user+"] "+content)
+	return msgIrc(user, content)
+}
+
+func msgIrc(user, content string) (bool, error) {
 	checkLimits()
 	m := &Message{Timestamp: time.Now(), User: user, Content: content}
 

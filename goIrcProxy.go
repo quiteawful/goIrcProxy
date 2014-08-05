@@ -1,16 +1,36 @@
 package main
 
 import (
+	"crypto/tls"
 	"fmt"
+	"github.com/thoj/go-ircevent"
 )
-
-var FormTemplate string = "<form action='/write' method='post'><input type='text' name='user'><input type='text' name='content'><input type='submit'></form>"
 
 func main() {
 	fmt.Println("Start Proxy")
 	//MessageLog = append(MessageLog, &Message{Timestamp: time.Now(), User: "marduk", Content: "hi"})
 	go startWebServer()
 
+	con := irc.IRC("Datenkrake", "Datenkrake")
+	con.VerboseCallbackHandler = true
+	con.UseTLS = true
+	con.TLSConfig = &tls.Config{InsecureSkipVerify: true}
+	err := con.Connect("tardis.nerdlife.de:6697")
+
+	if err != nil {
+		fmt.Println("error while connecting.")
+	}
+
+	con.AddCallback("001", func(e *irc.Event) {
+		con.Join("#g0")
+	})
+
+	con.AddCallback("PRIVMSG", func(e *irc.Event) {
+		msgAdd(e.Nick, e.Arguments[1])
+	})
+
+	con.Loop()
 	ch := make(chan bool)
 	<-ch
+	fmt.Println("heeey")
 }

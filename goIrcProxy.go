@@ -6,12 +6,15 @@ import (
 	"github.com/thoj/go-ircevent"
 )
 
+var con *irc.Connection
+
 func main() {
 	fmt.Println("Start Proxy")
 	//MessageLog = append(MessageLog, &Message{Timestamp: time.Now(), User: "marduk", Content: "hi"})
 	go startWebServer()
 
-	con := irc.IRC("Datenkrake", "Datenkrake")
+	con = irc.IRC("Datenkrake", "Datenkrake")
+
 	con.VerboseCallbackHandler = true
 	con.UseTLS = true
 	con.TLSConfig = &tls.Config{InsecureSkipVerify: true}
@@ -21,6 +24,7 @@ func main() {
 		fmt.Println("error while connecting.")
 	}
 
+	// Join Channel
 	con.AddCallback("001", func(e *irc.Event) {
 		con.Join("#g0")
 	})

@@ -32,6 +32,7 @@ func msgAdd(user, content string) (bool, error) {
 
 	checkLimits()
 	m := &Message{Timestamp: time.Now(), User: user, Content: content}
+
 	MessageLog = append(MessageLog, m)
 
 	return true, nil

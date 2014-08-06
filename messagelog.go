@@ -1,6 +1,7 @@
 package main
 
 import (
+	"html"
 	"time"
 )
 
@@ -26,6 +27,7 @@ func (l *Log) AddWebLog(user, content string) {
 
 func (l *Log) AddIrcLog(user, content string) {
 	l.checkLimit()
+	content = html.EscapeString(content)
 	l.MessageLog = append(l.MessageLog, NewMessage(user, content))
 }
 

@@ -23,9 +23,7 @@ func HttpIndex(w http.ResponseWriter, r *http.Request) {
 }
 
 func HttpLog(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, HtmlLogHead)
 	for _, m := range ctxLog.MessageLog {
 		fmt.Fprintf(w, fmt.Sprintf("[%s] %s: %s<br>", m.Timestamp.Format("15:04:05"), m.User, m.Content))
 	}
-	fmt.Fprintf(w, HtmlLogEnd)
 }

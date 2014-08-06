@@ -13,7 +13,7 @@ func startWebServer() {
 	http.ListenAndServe(":8080", nil)
 }
 
-func checkAuth(w http.Response, r *http.Request) bool {
+func checkAuth(w http.ResponseWriter, r *http.Request) bool {
 	s := strings.SplitN(r.Header.Get("Authorization"), " ", 2)
 	if len(s) != 2 {
 		return false
@@ -34,18 +34,31 @@ func checkAuth(w http.Response, r *http.Request) bool {
 
 // Serves the main index page, pretty much only the messagelog
 func HttpIndex(w http.ResponseWriter, r *http.Request) {
+	if checkAuth(w, r) { // auth
+		content := r.FormValue("content")
 
-	content := r.FormValue("content")
+		if content != "" { // is POST
+			ctxLog.AddWebLog("doclol", content)
+		}
 
-	if content != "" { // is POST
-		ctxLog.AddWebLog("doclol", content)
+		fmt.Fprintf(w, HtmlMain)
+		return
 	}
 
-	fmt.Fprintf(w, HtmlMain)
+	w.Header().Set("WWW-Authenticate", `Basic realm="schleich dich"`)
+	//w.Write([]byte("401"))
+	w.Write([]byte("401 Unauthorized\n"))
 }
 
 func HttpLog(w http.ResponseWriter, r *http.Request) {
-	for _, m := range ctxLog.MessageLog {
-		fmt.Fprintf(w, fmt.Sprintf("[%s] %s: %s<br>", m.Timestamp.Format("15:04:05"), m.User, m.Content))
+	if checkAuth(w, r) { // auth
+		for _, m := range ctxLog.MessageLog {
+			fmt.Fprintf(w, fmt.Sprintf("[%s] %s: %s<br>", m.Timestamp.Format("15:04:05"), m.User, m.Content))
+		}
+		return
 	}
+
+	w.Header().Set("WWW-Authenticate", `Basic realm="schleich dich"`)
+	//w.Write([]byte("401"))
+	w.Write([]byte("401 Unauthorized\n"))
 }

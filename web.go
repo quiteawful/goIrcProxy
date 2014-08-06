@@ -14,24 +14,16 @@ func startWebServer() {
 
 // Serves the main index page, pretty much only the messagelog
 func HttpIndex(w http.ResponseWriter, r *http.Request) {
-	user := r.FormValue("user")
 	content := r.FormValue("content")
 
-	if user != "" && content != "" { // is POST
-		x, err := msgWeb(user, content)
-		if err != nil || x == false {
-			fmt.Fprintf(w, err.Error())
-			return
-		}
-		if err != nil {
-			return
-		}
+	if content != "" { // is POST
+		ctxLog.AddWebLog("doclol", content)
 	}
 
-	fmt.Fprintf(w, "<!DOCTYPE html><html><head><title>goIrcProxy</title></head><body>Log:<br>")
-	for _, m := range MessageLog {
-		fmt.Fprintf(w, "["+m.Timestamp.String()+"] "+m.User+": "+m.Content+"<br>")
+	fmt.Fprintf(w, "<!DOCTYPE html><html><head><meta http-equiv='refresh' content='5'><title>goIrcProxy</title></head><body>")
+	for _, m := range ctxLog.MessageLog {
+		fmt.Fprintf(w, fmt.Sprintf("[%s] %s: %s<br>", m.Timestamp.String(), m.User, m.Content))
 	}
 
-	fmt.Fprintf(w, "<form action='/' method='post'><input type='text' name='user'><input type='text' name='content'><input type='submit'></form></body></html>")
+	fmt.Fprintf(w, "<form action='/' method='post'>Nachricht: <input type='text' name='content'><input type='submit'></form></body></html>")
 }

@@ -1,8 +1,6 @@
 package main
 
 import (
-	"errors"
-	"strings"
 	"time"
 )
 
@@ -12,43 +10,20 @@ type Message struct {
 	Content   string
 }
 
-var MessageLog []*Message
-
-func msgWeb(user, content string) (bool, error) {
-
-	user = strings.Trim(user, " ")
-
-	if user == "" {
-		return false, errors.New("Username is empty.")
-	}
-	if len(user) > 20 {
-		return false, errors.New("Username is too long. Max: 20")
-	}
-	if content == "" {
-		return false, errors.New("Content is empty.")
-	}
-	if len(content) > 100 {
-		return false, errors.New("Content is too long. Max: 100")
-	}
-	if !isWhitelisted(user) {
-		return false, errors.New("Sorry, only for VIPs.")
-	}
-
-	con.Privmsg("#g0", "[web: "+user+"] "+content)
-	return msgIrc(user, content)
+func NewMessage(user, content string) *Message {
+	return &Message{Timestamp: time.Now(), User: user, Content: content}
 }
 
-func msgIrc(user, content string) (bool, error) {
-	checkLimits()
-	m := &Message{Timestamp: time.Now(), User: user, Content: content}
-
-	MessageLog = append(MessageLog, m)
-
-	return true, nil
+type Log struct {
+	MessageLog []*Message
 }
 
-func checkLimits() {
-	if len(MessageLog) > 100 {
-		MessageLog = MessageLog[1:]
-	}
+// add a new Log to
+func (l *Log) AddWebLog(user, content string) {
+	ctxIrc.WriteToChannel(user, content)
+	l.AddIrcLog(user, content)
+}
+
+func (l *Log) AddIrcLog(user, content string) {
+	l.MessageLog = append(l.MessageLog, NewMessage(user, content))
 }

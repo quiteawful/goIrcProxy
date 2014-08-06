@@ -2,6 +2,7 @@ package main
 
 import (
 	"html"
+	"strings"
 	"time"
 )
 
@@ -27,9 +28,10 @@ func (l *Log) AddWebLog(user, content string) {
 
 func (l *Log) AddIrcLog(user, content string) {
 	l.checkLimit()
-	// es wird der Input von Irc-Usern und von Web-Usern gefiltert!
+	// es wird der Input von Ir		//fmt.Fprintf(w, "["+m.Timestamp.Format("15:04:05")+"] "+m.User+": "+m.Content+"<br>")c-Usern und von Web-Usern gefiltert!
 	// wahlweise kann man wohl auch template.HTMLEscapeString() nehmen
 	content = html.EscapeString(content)
+	content = strings.Replace(content, "%", "%%", -1)
 	user = html.EscapeString(user)
 	l.MessageLog = append(l.MessageLog, NewMessage(user, content))
 }

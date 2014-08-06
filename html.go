@@ -73,6 +73,7 @@ var HtmlMain string = `<!DOCTYPE html>
             padding: 10px;
             margin: 0;
             display: block;
+            overflow-y: scroll;
             word-wrap: break-word;
             white-space: pre-wrap;
             white-space: -moz-pre-wrap;

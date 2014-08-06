@@ -5,7 +5,7 @@ var HtmlLogEnd string = "<a name='scrollhack'>&nbsp;</a></body></html>"
 
 var HtmlMain string = `<!DOCTYPE html>
 <html><title>Doclol Irc Proxy</title></head><body>
-<iframe src="./log#scrollhack" height="100px"><p>Deine Admins suck0rn.</p></iframe>
+<iframe src="./log#scrollhack" width="600px" height="500px"><p>Deine Admins suck0rn.</p></iframe>
 <form action="/" method="post">
 Nachricht: <input type="text" name="content">
 <input type="submit">

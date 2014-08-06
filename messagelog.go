@@ -27,13 +27,17 @@ func (l *Log) AddWebLog(user, content string) {
 
 func (l *Log) AddIrcLog(user, content string) {
 	l.checkLimit()
+	// es wird der Input von Irc-Usern und von Web-Usern gefiltert!
+	// wahlweise kann man wohl auch template.HTMLEscapeString() nehmen
 	content = html.EscapeString(content)
+	user = html.EscapeString(user)
 	l.MessageLog = append(l.MessageLog, NewMessage(user, content))
 }
 
 func (l *Log) checkLimit() {
+	var numBacklog int = 50
 	// backlog of 50
-	if len(l.MessageLog) > 50 {
-		l.MessageLog = l.MessageLog[len(l.MessageLog)-50:]
+	if len(l.MessageLog) > numBacklog {
+		l.MessageLog = l.MessageLog[len(l.MessageLog)-numBacklog:]
 	}
 }

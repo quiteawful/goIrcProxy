@@ -1,9 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
-
 var ctxIrc *Irc
 var ctxLog *Log
 

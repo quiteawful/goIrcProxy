@@ -7,3 +7,4 @@ in die Welt der Bits und Bytes gelangt.
 
 - Experimentell
 - Fehlerbehaftet.
+- Garantiert ohne web2.0

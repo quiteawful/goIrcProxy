@@ -23,14 +23,14 @@ var HtmlMain string = `<!DOCTYPE html>
         }
 
         .wrap {
-            width: 100%;
+            width: 100%%;
             padding-bottom: 30px;
             position: relative;
         }
 
         .form {
             position: relative;
-            width: 100%;
+            width: 100%%;
             height: 30px;
             margin: 0;
             padding: 0;
@@ -43,7 +43,8 @@ var HtmlMain string = `<!DOCTYPE html>
             border: 0;
             margin: 0;
             padding: 0px 10px;
-            width: 100%;
+            width: 100%%;
+            height: 100%%;
             display: block;
             line-height: 30px;
             background: transparent;
@@ -55,6 +56,7 @@ var HtmlMain string = `<!DOCTYPE html>
             top: 0;
             right: 0;
             width: 70px;
+            height: 100%%;
             border: 0;
             border-left: 1px solid #eee;
             color: #eee;
@@ -62,12 +64,12 @@ var HtmlMain string = `<!DOCTYPE html>
             margin: 0;
             padding: 0;
             display: block;
-            height: 100%;
+            height: 100%%;
             line-height: 30px;
         }
 
         .content {
-            width: 100%;
+            width: 100%%;
             overflow-y: scroll;
             border: 1px solid #eee;
             padding: 10px;

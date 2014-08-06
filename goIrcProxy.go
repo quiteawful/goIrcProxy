@@ -17,6 +17,4 @@ func main() {
 
 	go startWebServer()
 	ctxIrc.Run()
-
-	fmt.Println("done.")
 }

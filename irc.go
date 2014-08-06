@@ -28,8 +28,6 @@ func (i *Irc) Run() {
 	i.Con.AddCallback("CTCP_ACTION", parseIrcMsg)
 
 	i.Con.Loop()
-	ch := make(chan bool)
-	<-ch
 }
 
 func (i *Irc) WriteToChannel(user, content string) {

@@ -90,7 +90,7 @@ var HtmlMain string = `<!DOCTYPE html>
 
         </pre>
         <form id="form" class="form" action="/" method="post">
-            <input class="input" type="text" name="content" placeholder="message...">
+            <input class="input" type="text" name="content" placeholder="message..." autocomplete="off">
             <input class="submit" type="submit" name="text" value="send">
         </form>
     </div>

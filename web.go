@@ -7,10 +7,13 @@ import (
 	"strings"
 )
 
-func startWebServer() {
-	http.HandleFunc("/", HttpIndex)
+func startWebServer(u map[string]string) {
+	for handle, _ := range u {
+		http.HandleFunc("/"+handle, HttpIndex)
+	}
+	//http.HandleFunc("/", HttpIndex)
 	http.HandleFunc("/log", HttpLog)
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":80", nil)
 }
 
 func checkAuth(w http.ResponseWriter, r *http.Request) bool {
@@ -38,7 +41,7 @@ func HttpIndex(w http.ResponseWriter, r *http.Request) {
 	content := r.FormValue("content")
 
 	if content != "" { // is POST
-		ctxLog.AddWebLog("doclol", content)
+		ctxLog.AddWebLog(ctxUser[r.RequestURI[1:]], content)
 	}
 
 	fmt.Fprintf(w, HtmlMain)

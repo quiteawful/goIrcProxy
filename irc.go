@@ -3,8 +3,9 @@ package main
 import (
 	"crypto/tls"
 	"fmt"
-	"github.com/thoj/go-ircevent"
 	"strconv"
+
+	"github.com/thoj/go-ircevent"
 )
 
 type Irc struct {
@@ -15,7 +16,7 @@ type Irc struct {
 }
 
 func (i *Irc) Run() {
-	i.Con = irc.IRC("Datenkrake", "Datenkrake")
+	i.Con = irc.IRC("Testkatze", "Testkatze")
 	i.Con.VerboseCallbackHandler = true
 	i.Con.UseTLS = true
 	i.Con.TLSConfig = &tls.Config{InsecureSkipVerify: true}

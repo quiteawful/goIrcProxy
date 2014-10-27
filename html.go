@@ -133,7 +133,7 @@ var HtmlMain string = `<!DOCTYPE html>
             }
 
             var data = 'content=' + content;
-            xhr('/', function(){
+            xhr(window.location.pathname, function(){
                 $input.value = '';
                 updateLog();
             }, 'POST', data);

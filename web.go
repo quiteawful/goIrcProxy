@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"net/http"
+	"regexp"
 	"strings"
 )
 
@@ -52,6 +53,7 @@ func HttpIndex(w http.ResponseWriter, r *http.Request) {
 func HttpLog(w http.ResponseWriter, r *http.Request) {
 	//if checkAuth(w, r) { // auth
 	for _, m := range ctxLog.MessageLog {
+		m.Content = makeClickableLinks(m.Content)
 		fmt.Fprintf(w, fmt.Sprintf("[%s] %s: %s<br>", m.Timestamp.Format("15:04:05"), m.User, m.Content))
 	}
 	return
@@ -60,4 +62,22 @@ func HttpLog(w http.ResponseWriter, r *http.Request) {
 	//w.Header().Set("WWW-Authenticate", `Basic realm="schleich dich"`)
 	//w.Write([]byte("401"))
 	//w.Write([]byte("401 Unauthorized\n"))
+}
+
+func makeClickableLinks(c string) string {
+	var urlregex *regexp.Regexp = regexp.MustCompile(`((([A-Za-z]{3,9}:(?:\/\/)?)+(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;!:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~!#%\/.\w-_]*)?\??(?:[-\+!=&;%@.\w_]*)[#:]?(?:[\w]*))?)`)
+
+	if urlregex.MatchString(c) {
+		x := urlregex.FindAllString(c, -1)
+		if x == nil {
+			// no match
+			return c
+		}
+		for _, k := range x {
+			c = strings.Replace(c, k, fmt.Sprintf("<a href='%s' target='_blank'>%s</a>", k, k), 1)
+		}
+	} else {
+		return c
+	}
+	return c
 }

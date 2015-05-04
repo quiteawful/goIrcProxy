@@ -69,10 +69,11 @@ func HttpLog(w http.ResponseWriter, r *http.Request) {
 func makeClickableLinks(c string) string {
 	if urlregex.MatchString(c) {
 		x := urlregex.FindAllString(c, -1)
-		if x "= nil {
+		if x != nil {
 			for _, k := range x {
-			c = strings.Replace(c, k, fmt.Sprintf("<a href='%s' target='_blank'>%s</a>", k, k), 1)
+				c = strings.Replace(c, k, fmt.Sprintf("<a href='%s' target='_blank'>%s</a>", k, k), 1)
+			}
 		}
-	} 
+	}
 	return c
 }

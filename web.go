@@ -8,6 +8,8 @@ import (
 	"strings"
 )
 
+var urlregex *regexp.Regexp = regexp.MustCompile(`((([A-Za-z]{3,9}:(?:\/\/)?)+(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;!:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~!#%\/.\w-_]*)?\??(?:[-\+!=&;%@.\w_]*)[#:]?(?:[\w]*))?)`)
+
 func startWebServer(u map[string]string) {
 	for handle, _ := range u {
 		http.HandleFunc("/"+handle, HttpIndex)
@@ -65,19 +67,12 @@ func HttpLog(w http.ResponseWriter, r *http.Request) {
 }
 
 func makeClickableLinks(c string) string {
-	var urlregex *regexp.Regexp = regexp.MustCompile(`((([A-Za-z]{3,9}:(?:\/\/)?)+(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;!:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~!#%\/.\w-_]*)?\??(?:[-\+!=&;%@.\w_]*)[#:]?(?:[\w]*))?)`)
-
 	if urlregex.MatchString(c) {
 		x := urlregex.FindAllString(c, -1)
-		if x == nil {
-			// no match
-			return c
-		}
-		for _, k := range x {
+		if x "= nil {
+			for _, k := range x {
 			c = strings.Replace(c, k, fmt.Sprintf("<a href='%s' target='_blank'>%s</a>", k, k), 1)
 		}
-	} else {
-		return c
-	}
+	} 
 	return c
 }

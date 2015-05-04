@@ -55,8 +55,8 @@ func HttpIndex(w http.ResponseWriter, r *http.Request) {
 func HttpLog(w http.ResponseWriter, r *http.Request) {
 	//if checkAuth(w, r) { // auth
 	for _, m := range ctxLog.MessageLog {
-		m.Content = makeClickableLinks(m.Content)
-		fmt.Fprintf(w, fmt.Sprintf("[%s] %s: %s<br>", m.Timestamp.Format("15:04:05"), m.User, m.Content))
+		msg := makeClickableLinks(m.Content)
+		fmt.Fprintf(w, fmt.Sprintf("[%s] %s: %s<br>", m.Timestamp.Format("15:04:05"), m.User, msg))
 	}
 	return
 	//}
